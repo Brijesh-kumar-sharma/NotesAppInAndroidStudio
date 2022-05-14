@@ -5,14 +5,10 @@ public class firebasemodel {
     private String title;
     private String content;
 
-
-    public firebasemodel()
-    {
-
+    public firebasemodel() {
     }
 
-    public  firebasemodel (String title, String content)
-    {
+    public  firebasemodel (String title, String content){
         this.title=title;
         this.content=content;
     }

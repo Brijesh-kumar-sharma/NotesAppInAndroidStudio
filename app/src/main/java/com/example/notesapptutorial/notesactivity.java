@@ -1,5 +1,6 @@
 package com.example.notesapptutorial;
 
+import static StaticVariable.StaticVariable.numberOfNotes;
 import static java.time.LocalDateTime.now;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,19 +47,17 @@ import com.google.firebase.firestore.Query;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.w3c.dom.Document;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import StaticVariable.StaticVariable;
 
 public class notesactivity extends AppCompatActivity {
 
@@ -74,6 +74,8 @@ public class notesactivity extends AppCompatActivity {
 
     FirestoreRecyclerAdapter<firebasemodel,NoteViewHolder> noteAdapter;
 
+    ImageView empty_imageview;
+    TextView no_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +107,7 @@ public class notesactivity extends AppCompatActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         noteAdapter= new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes) {
+
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel firebasemodel) {
@@ -136,7 +139,6 @@ public class notesactivity extends AppCompatActivity {
                        // Toast.makeText(getApplicationContext(),"This is Clicked",Toast.LENGTH_SHORT).show();
                     }
                 });
-
 
                 popupbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -171,10 +173,15 @@ public class notesactivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(v.getContext(),"Failed To Delete",Toast.LENGTH_SHORT).show();
+                                        StaticVariable.numberOfNotes++;
                                     }
+
                                 });
-
-
+                                StaticVariable.numberOfNotes--;
+                                if(numberOfNotes == 0){
+                                    Intent intent = new Intent(notesactivity.this, notesactivity.class);
+                                    startActivity(intent);
+                                }
                                 return false;
                             }
                         });
@@ -265,7 +272,6 @@ public class notesactivity extends AppCompatActivity {
 
 
             }
-
             @NonNull
             @Override
             public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -274,7 +280,6 @@ public class notesactivity extends AppCompatActivity {
             }
         };
 
-
         mrecyclerview=findViewById(R.id.recyclerview);
         mrecyclerview.setHasFixedSize(true);
         staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -282,6 +287,17 @@ public class notesactivity extends AppCompatActivity {
         mrecyclerview.setAdapter(noteAdapter);
 
 
+        empty_imageview = findViewById(R.id.empty_imageview);
+        no_data = findViewById(R.id.no_data);
+
+        if(numberOfNotes == 0){
+            empty_imageview.setVisibility(View.VISIBLE);
+            no_data.setVisibility(View.VISIBLE);
+        }else{
+
+            empty_imageview.setVisibility(View.GONE);
+            no_data.setVisibility(View.GONE);
+        }
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder

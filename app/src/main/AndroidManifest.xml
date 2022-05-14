@@ -16,7 +16,8 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".createnote"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:parentActivityName=".notesactivity"/>
         <activity android:name=".notesactivity" />
         <activity android:name=".fogotpassword" />
         <activity android:name=".signup" />
