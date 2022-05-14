@@ -1,6 +1,5 @@
 package com.example.notesapptutorial;
 
-import static StaticVariable.StaticVariable.numberOfNotes;
 import static java.time.LocalDateTime.now;
 
 import androidx.annotation.NonNull;
@@ -57,8 +56,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import StaticVariable.StaticVariable;
-
 public class notesactivity extends AppCompatActivity {
 
     FloatingActionButton mcreatenotesfab;
@@ -74,8 +71,6 @@ public class notesactivity extends AppCompatActivity {
 
     FirestoreRecyclerAdapter<firebasemodel,NoteViewHolder> noteAdapter;
 
-    ImageView empty_imageview;
-    TextView no_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,15 +168,9 @@ public class notesactivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(v.getContext(),"Failed To Delete",Toast.LENGTH_SHORT).show();
-                                        StaticVariable.numberOfNotes++;
                                     }
 
                                 });
-                                StaticVariable.numberOfNotes--;
-                                if(numberOfNotes == 0){
-                                    Intent intent = new Intent(notesactivity.this, notesactivity.class);
-                                    startActivity(intent);
-                                }
                                 return false;
                             }
                         });
@@ -285,19 +274,6 @@ public class notesactivity extends AppCompatActivity {
         staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         mrecyclerview.setAdapter(noteAdapter);
-
-
-        empty_imageview = findViewById(R.id.empty_imageview);
-        no_data = findViewById(R.id.no_data);
-
-        if(numberOfNotes == 0){
-            empty_imageview.setVisibility(View.VISIBLE);
-            no_data.setVisibility(View.VISIBLE);
-        }else{
-
-            empty_imageview.setVisibility(View.GONE);
-            no_data.setVisibility(View.GONE);
-        }
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder

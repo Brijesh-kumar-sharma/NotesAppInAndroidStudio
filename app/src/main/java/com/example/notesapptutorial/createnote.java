@@ -24,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-import StaticVariable.StaticVariable;
 
 public class createnote extends AppCompatActivity {
 
@@ -88,10 +87,8 @@ public class createnote extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getApplicationContext(),"Failed To Create Note",Toast.LENGTH_SHORT).show();
                             mprogressbarofcreatenote.setVisibility(View.INVISIBLE);
-                            StaticVariable.numberOfNotes--;
                         }
                     });
-                    StaticVariable.numberOfNotes++;
                 }
             }
         });
