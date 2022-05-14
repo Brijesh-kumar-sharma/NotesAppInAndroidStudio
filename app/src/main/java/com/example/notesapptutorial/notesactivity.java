@@ -1,5 +1,7 @@
 package com.example.notesapptutorial;
 
+import static java.time.LocalDateTime.now;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,11 +40,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.w3c.dom.Document;
 import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -174,7 +180,7 @@ public class notesactivity extends AppCompatActivity {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
-                                LocalDateTime datetime1 = LocalDateTime.now();
+                                LocalDateTime datetime1 = now();
                                 DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
                                 String formatDateTime = datetime1.format(format);
 
@@ -186,7 +192,7 @@ public class notesactivity extends AppCompatActivity {
                                 PdfDocument.Page page = pdfDocument.startPage(pageInfo);
 
                                 Paint paint = new Paint();
-                                String stringPDF = firebasemodel.getTitle() + "\n" + firebasemodel.getContent();
+                                String stringPDF = firebasemodel.getTitle() + "\n\n" + firebasemodel.getContent();
 
                                 int x = 10, y = 25;
 
@@ -205,6 +211,49 @@ public class notesactivity extends AppCompatActivity {
                                 }
                                 pdfDocument.close();
 
+                                return false;
+                            }
+                        });
+                        popupMenu.getMenu().add("Export docx").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                LocalDateTime datetime1 = now();
+                                DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
+                                String formatDateTime = datetime1.format(format);
+
+                                String stringFilePath = Environment.getExternalStorageDirectory().getPath() + "/Download/Note" + formatDateTime +".docx";
+                                File file = new File(stringFilePath);
+
+                                try {
+                                    file.createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(v.getContext(),"file docx didn't create",Toast.LENGTH_SHORT).show();
+                                }
+
+                                try {
+                                    XWPFDocument xwpfDocument = new XWPFDocument();
+                                    XWPFParagraph xwpfParagraph = xwpfDocument.createParagraph();
+                                    XWPFRun xwpfRun = xwpfParagraph.createRun();
+
+                                    xwpfRun.setText(firebasemodel.getTitle() + "\n\n" + firebasemodel.getContent());
+                                    xwpfRun.setFontSize(24);
+
+                                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                                    xwpfDocument.write(fileOutputStream);
+
+                                    if (fileOutputStream!=null){
+                                        fileOutputStream.flush();
+                                        fileOutputStream.close();
+                                    }
+                                    xwpfDocument.close();
+                                    Toast.makeText(v.getContext(),"file docx created",Toast.LENGTH_SHORT).show();
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                    Toast.makeText(v.getContext(),"file docx didn't create",Toast.LENGTH_SHORT).show();
+                                }
                                 return false;
                             }
                         });

@@ -47,4 +47,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:4.1.0'
 
     implementation 'com.itextpdf:itextg:5.5.10'
+
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+    implementation 'javax.xml.stream:stax-api:1.0'
 }
