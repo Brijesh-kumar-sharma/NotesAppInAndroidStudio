@@ -3,12 +3,18 @@ package com.example.notesapptutorial;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +41,12 @@ import com.google.firebase.firestore.Query;
 import org.w3c.dom.Document;
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -80,6 +92,9 @@ public class notesactivity extends AppCompatActivity {
         Query query=firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title",Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<firebasemodel> allusernotes= new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query,firebasemodel.class).build();
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         noteAdapter= new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes) {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -155,7 +170,44 @@ public class notesactivity extends AppCompatActivity {
                                 return false;
                             }
                         });
+                        popupMenu.getMenu().add("Export PDF").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                LocalDateTime datetime1 = LocalDateTime.now();
+                                DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
+                                String formatDateTime = datetime1.format(format);
 
+                                String stringFilePath = Environment.getExternalStorageDirectory().getPath() + "/Download/Note" + formatDateTime +".pdf";
+                                File file = new File(stringFilePath);
+
+                                PdfDocument pdfDocument = new PdfDocument();
+                                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 1).create();
+                                PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+                                Paint paint = new Paint();
+                                String stringPDF = firebasemodel.getTitle() + "\n" + firebasemodel.getContent();
+
+                                int x = 10, y = 25;
+
+                                for (String line:stringPDF.split("\n")){
+                                    page.getCanvas().drawText(line,x,y, paint);
+
+                                    y+=paint.descent()-paint.ascent();
+                                }
+                                pdfDocument.finishPage(page);
+                                try {
+                                    pdfDocument.writeTo(new FileOutputStream(file));
+                                    Toast.makeText(v.getContext(),"file pdf created",Toast.LENGTH_SHORT).show();
+                                }
+                                catch (Exception e){
+                                    Toast.makeText(v.getContext(),"file pdf didn't create",Toast.LENGTH_SHORT).show();
+                                }
+                                pdfDocument.close();
+
+                                return false;
+                            }
+                        });
                         popupMenu.show();
                     }
                 });
@@ -256,9 +308,6 @@ public class notesactivity extends AppCompatActivity {
         Random random=new Random();
         int number=random.nextInt(colorcode.size());
         return colorcode.get(number);
-
-
-
     }
 
 }

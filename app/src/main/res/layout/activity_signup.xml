@@ -58,12 +58,14 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         >
+
         <EditText
+            android:id="@+id/signupemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/signupemail"
             android:hint="Enter Your Email"
-            android:inputType="textEmailAddress">
+            android:inputType="textEmailAddress"
+            tools:ignore="SpeakableTextPresentCheck">
 
         </EditText>
     </com.google.android.material.textfield.TextInputLayout>
@@ -78,52 +80,52 @@
         android:layout_marginLeft="30dp"
         app:passwordToggleEnabled="true"
         >
+
         <EditText
+            android:id="@+id/signuppassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/signuppassword"
             android:hint="Enter Your Password"
-            >
+            tools:ignore="SpeakableTextPresentCheck">
 
         </EditText>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <RelativeLayout
+        android:id="@+id/signup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/button_design"
         android:layout_below="@id/password"
-        android:id="@+id/signup">
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/button_design">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:text="Sign Up"
             android:layout_centerInParent="true"
+            android:layout_marginStart="8dp"
+            android:text="Sign Up"
             android:textColor="@color/white"
-            ></TextView>
+            android:textSize="16sp"
+            android:textStyle="bold"></TextView>
 
     </RelativeLayout>
 
 
     <TextView
+        android:id="@+id/gotologin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Want To Login ?"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/black"
         android:layout_below="@id/signup"
-        android:id="@+id/gotologin"
-        android:layout_marginTop="70dp"></TextView>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="20dp"
+        android:text="Want To Login ?"
+        android:textAlignment="center"
+        android:textColor="@color/black"></TextView>
 
 
 </RelativeLayout>
