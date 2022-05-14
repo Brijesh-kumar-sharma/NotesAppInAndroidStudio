@@ -59,8 +59,8 @@ public class createnote extends AppCompatActivity {
         msavenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title=mcreatetitleofnote.getText().toString();
-                String content=mcreatecontentofnote.getText().toString();
+                String title=mcreatetitleofnote.getText().toString().trim();
+                String content=mcreatecontentofnote.getText().toString().trim();
                 if(title.isEmpty() || content.isEmpty())
                 {
                     Toast.makeText(getApplicationContext(),"Both field are Require",Toast.LENGTH_SHORT).show();
@@ -86,12 +86,8 @@ public class createnote extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getApplicationContext(),"Failed To Create Note",Toast.LENGTH_SHORT).show();
                             mprogressbarofcreatenote.setVisibility(View.INVISIBLE);
-                           // startActivity(new Intent(createnote.this,notesactivity.class));
                         }
                     });
-
-
-
 
                 }
             }

@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -294,7 +296,9 @@ public class notesactivity extends AppCompatActivity {
             notecontent=itemView.findViewById(R.id.notecontent);
             mnote=itemView.findViewById(R.id.note);
 
-
+            //Animate Recyclerview
+            Animation translate_anim = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.translate_anim);
+            mnote.setAnimation(translate_anim);
         }
     }
 
