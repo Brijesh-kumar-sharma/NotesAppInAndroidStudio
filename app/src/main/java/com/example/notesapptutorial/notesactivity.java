@@ -4,12 +4,15 @@ import static java.time.LocalDateTime.now;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
@@ -24,8 +27,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -157,20 +162,34 @@ public class notesactivity extends AppCompatActivity {
                         popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                //Toast.makeText(v.getContext(),"This note is deleted",Toast.LENGTH_SHORT).show();
-                                DocumentReference documentReference=firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
-                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(notesactivity.this);
+                                builder.setTitle("Delete");
+                                builder.setMessage("Are you sure you want to delete?");
+                                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(v.getContext(),"This note is deleted",Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(v.getContext(),"Failed To Delete",Toast.LENGTH_SHORT).show();
-                                    }
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
+                                        documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(v.getContext(),"This note is deleted",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(v.getContext(),"Failed To Delete",Toast.LENGTH_SHORT).show();
+                                            }
 
+                                        });
+                                    }
                                 });
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                                builder.create().show();
                                 return false;
                             }
                         });
@@ -274,6 +293,7 @@ public class notesactivity extends AppCompatActivity {
         staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         mrecyclerview.setAdapter(noteAdapter);
+
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder
@@ -354,5 +374,4 @@ public class notesactivity extends AppCompatActivity {
         int number=random.nextInt(colorcode.size());
         return colorcode.get(number);
     }
-
 }
