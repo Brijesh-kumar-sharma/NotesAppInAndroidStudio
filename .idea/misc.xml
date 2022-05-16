@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/custom_button.xml" value="0.1945" />
         <entry key="app/src/main/res/drawable-v24/ic_empty.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.1945" />
         <entry key="app/src/main/res/layout/activity_createnote.xml" value="0.19375" />
@@ -12,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_notedetails.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_notesactivity.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/customdialog.xml" value="0.22" />
         <entry key="app/src/main/res/layout/notes_layout.xml" value="0.19375" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.19375" />
       </map>

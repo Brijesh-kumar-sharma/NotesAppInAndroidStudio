@@ -252,18 +252,32 @@ public class notesactivity extends AppCompatActivity {
                                 try {
                                     XWPFDocument xwpfDocument = new XWPFDocument();
                                     XWPFParagraph xwpfParagraph = xwpfDocument.createParagraph();
-                                    XWPFRun xwpfRun = xwpfParagraph.createRun();
+                                    XWPFRun xwpfRuntt = xwpfParagraph.createRun();
+                                    XWPFRun xwpfRunct = xwpfParagraph.createRun();
 
-                                    xwpfRun.setText(firebasemodel.getTitle() + "\n\n" + firebasemodel.getContent());
-                                    xwpfRun.setFontSize(24);
+                                    xwpfRuntt.setText(firebasemodel.getTitle() + "\n");
+                                    xwpfRuntt.addBreak();
+                                    xwpfRuntt.setFontSize(24);
+                                    xwpfRuntt.setBold(true);
+
+                                    //xwpfRun1.setText(firebasemodel.getContent());
+                                    String data = firebasemodel.getContent();
+                                    if(data.contains("\n")){
+                                        String[] lines = data.split("\n");
+                                        xwpfRunct.setText(lines[0], 0);
+                                        for(int i=1;i<lines.length;i++){
+                                            xwpfRunct.addBreak();
+                                            xwpfRunct.setText(lines[i]);
+                                        }
+                                    } else {
+                                        xwpfRunct.setText(data, 0);
+                                    }
+                                    xwpfRunct.setFontSize(16);
+
 
                                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                                     xwpfDocument.write(fileOutputStream);
 
-                                    if (fileOutputStream!=null){
-                                        fileOutputStream.flush();
-                                        fileOutputStream.close();
-                                    }
                                     xwpfDocument.close();
                                     Toast.makeText(v.getContext(),"file docx created",Toast.LENGTH_SHORT).show();
                                 }
