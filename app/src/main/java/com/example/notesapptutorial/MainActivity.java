@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressBar mprogressbarofmainactivity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(MainActivity.this,notesactivity.class));
         }
-
-
 
         mgotosignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
                     // login the user
-
-
                     mprogressbarofmainactivity.setVisibility(View.VISIBLE);
 
                     firebaseAuth.signInWithEmailAndPassword(mail,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -104,10 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-
-
-
-
                 }
             }
         });

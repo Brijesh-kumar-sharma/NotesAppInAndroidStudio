@@ -69,12 +69,14 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         >
+
         <EditText
+            android:id="@+id/loginemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginemail"
             android:hint="Enter Your Email"
-            android:inputType="textEmailAddress">
+            android:inputType="textEmailAddress"
+            tools:ignore="SpeakableTextPresentCheck">
 
         </EditText>
     </com.google.android.material.textfield.TextInputLayout>
@@ -89,12 +91,13 @@
         android:layout_marginLeft="30dp"
         app:passwordToggleEnabled="true"
         >
+
         <EditText
+            android:id="@+id/loginpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginpassword"
             android:hint="Enter Your Password"
-            >
+            tools:ignore="SpeakableTextPresentCheck">
 
         </EditText>
     </com.google.android.material.textfield.TextInputLayout>

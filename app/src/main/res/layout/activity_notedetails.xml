@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.circularreveal.CircularRevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,57 +7,71 @@
     tools:context=".notedetails">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarofnotedetail"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:id="@+id/toolbarofnotedetail"
         android:background="@color/white">
 
 
         <TextView
+            android:id="@+id/titleofnotedetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="12dp"
-            android:textSize="25sp"
-            android:textStyle="bold"
             android:text="Title Displayerd Here"
             android:textColor="@color/black"
-            android:id="@+id/titleofnotedetail" />
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:id="@+id/contentofnotedetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="17sp"
+        android:layout_below="@id/toolbarofnotedetail"
         android:background="#faf7f7"
         android:gravity="top|left"
-        android:textColor="@color/black"
         android:hint="Enter your note content here"
-        android:layout_below="@id/toolbarofnotedetail"
         android:padding="15dp"
-        android:id="@+id/contentofnotedetail">
+        android:textColor="@color/black"
+        android:textSize="17sp">
 
     </TextView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
 
+        android:id="@+id/gotoeditnote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
-        android:id="@+id/gotoeditnote"
-        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
         android:background="#A1F4FB"
+        android:src="@drawable/ic_baseline_edit_24"
         app:maxImageSize="40dp"
 
-        >
+        tools:ignore="SpeakableTextPresentCheck">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
+    <ImageView
+        android:id="@+id/backGround"
+        android:layout_width="wrap_content"
+        android:layout_height="734dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="-3dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:alpha="0.2"/>
 
 
-</RelativeLayout>
+</com.google.android.material.circularreveal.CircularRevealRelativeLayout>

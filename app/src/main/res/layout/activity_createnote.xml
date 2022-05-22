@@ -44,19 +44,19 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
 
+        android:id="@+id/savenote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
-        android:id="@+id/savenote"
-        android:src="@drawable/save"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
         android:background="#A1F4FB"
+        android:src="@drawable/save"
         app:maxImageSize="56dp"
 
-        >
+        tools:ignore="SpeakableTextPresentCheck">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
