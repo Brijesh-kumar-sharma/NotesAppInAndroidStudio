@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.notesapptutorial.databinding.ActivityEditnoteactivityBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,9 +26,9 @@ import java.util.Map;
 
 public class editnoteactivity extends AppCompatActivity {
 
+    private ActivityEditnoteactivityBinding binding;
+
     Intent data;
-    EditText medittitleofnote,meditcontentofnote;
-    FloatingActionButton msaveeditnote;
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
@@ -37,30 +38,30 @@ public class editnoteactivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editnoteactivity);
-        medittitleofnote=findViewById(R.id.edittitleofnote);
-        meditcontentofnote=findViewById(R.id.editcontentofnote);
-        msaveeditnote=findViewById(R.id.saveeditnote);
+
+        binding = ActivityEditnoteactivityBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
+
 
         data=getIntent();
 
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
 
+        setSupportActionBar(binding.toolbarofeditnote);
 
-        Toolbar toolbar=findViewById(R.id.toolbarofeditnote);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
-        msaveeditnote.setOnClickListener(new View.OnClickListener() {
+        binding.saveeditnote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"savebuton click",Toast.LENGTH_SHORT).show();
 
-                String newtitle=medittitleofnote.getText().toString();
-                String newcontent=meditcontentofnote.getText().toString();
+                String newtitle=binding.edittitleofnote.getText().toString();
+                String newcontent=binding.editcontentofnote.getText().toString();
 
                 if(newtitle.isEmpty()||newcontent.isEmpty())
                 {
@@ -93,8 +94,8 @@ public class editnoteactivity extends AppCompatActivity {
 
         String notetitle=data.getStringExtra("title");
         String notecontent=data.getStringExtra("content");
-        meditcontentofnote.setText(notecontent);
-        medittitleofnote.setText(notetitle);
+        binding.editcontentofnote.setText(notecontent);
+        binding.edittitleofnote.setText(notetitle);
     }
 
     @Override
