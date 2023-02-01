@@ -37,6 +37,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.notesapptutorial.databinding.ActivityNotesactivityBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -63,11 +64,13 @@ import java.util.Random;
 
 public class notesactivity extends AppCompatActivity {
 
+    private ActivityNotesactivityBinding binding;
+
     FloatingActionButton mcreatenotesfab;
     private FirebaseAuth firebaseAuth;
 
 
-    RecyclerView mrecyclerview;
+
     StaggeredGridLayoutManager staggeredGridLayoutManager;
 
 
@@ -79,9 +82,12 @@ public class notesactivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notesactivity);
 
-        mcreatenotesfab=findViewById(R.id.createnotefab);
+        binding = ActivityNotesactivityBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
+
+
         firebaseAuth=FirebaseAuth.getInstance();
 
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
@@ -89,7 +95,7 @@ public class notesactivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("All Notes");
 
-        mcreatenotesfab.setOnClickListener(new View.OnClickListener() {
+        binding.createnotefab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -302,11 +308,11 @@ public class notesactivity extends AppCompatActivity {
             }
         };
 
-        mrecyclerview=findViewById(R.id.recyclerview);
-        mrecyclerview.setHasFixedSize(true);
+
+        binding.recyclerview.setHasFixedSize(true);
         staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
-        mrecyclerview.setAdapter(noteAdapter);
+        binding.recyclerview.setLayoutManager(staggeredGridLayoutManager);
+        binding.recyclerview.setAdapter(noteAdapter);
 
     }
 

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.notesapptutorial.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,28 +21,19 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText mloginemail,mloginpassword;
-    private RelativeLayout mlogin,mgotosignup;
-    private  TextView mgotoforgotpassword;
+    private ActivityMainBinding binding;
 
     private FirebaseAuth firebaseAuth;
-
-    ProgressBar mprogressbarofmainactivity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
-
-        mloginemail=findViewById(R.id.loginemail);
-        mloginpassword=findViewById(R.id.loginpassword);
-        mlogin=findViewById(R.id.login);
-        mgotoforgotpassword=findViewById(R.id.gotoforgotpassword);
-        mgotosignup=findViewById(R.id.gotosignup);
-        mprogressbarofmainactivity=findViewById(R.id.progressbarofmainactivity);
 
         firebaseAuth=FirebaseAuth.getInstance();
         FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
@@ -52,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,notesactivity.class));
         }
 
-        mgotosignup.setOnClickListener(new View.OnClickListener() {
+        binding.gotosignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,signup.class));
             }
         });
 
-        mgotoforgotpassword.setOnClickListener(new View.OnClickListener() {
+        binding.gotoforgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,fogotpassword.class));
@@ -67,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        mlogin.setOnClickListener(new View.OnClickListener() {
+        binding.login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mail=mloginemail.getText().toString().trim();
-                String password=mloginpassword.getText().toString().trim();
+                String mail=binding.loginemail.getText().toString().trim();
+                String password=binding.loginpassword.getText().toString().trim();
 
                 if(mail.isEmpty()|| password.isEmpty())
                 {
@@ -81,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
                     // login the user
-                    mprogressbarofmainactivity.setVisibility(View.VISIBLE);
+                    binding.progressbarofmainactivity.setVisibility(View.VISIBLE);
 
                     firebaseAuth.signInWithEmailAndPassword(mail,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -95,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             else
                             {
                                 Toast.makeText(getApplicationContext(),"Account Doesn't Exist",Toast.LENGTH_SHORT).show();
-                                mprogressbarofmainactivity.setVisibility(View.INVISIBLE);
+                                binding.progressbarofmainactivity.setVisibility(View.INVISIBLE);
                             }
 
 
@@ -120,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            mprogressbarofmainactivity.setVisibility(View.INVISIBLE);
+            binding.progressbarofmainactivity.setVisibility(View.INVISIBLE);
             Toast.makeText(getApplicationContext(),"Verify your mail first",Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
         }
